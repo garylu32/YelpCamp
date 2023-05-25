@@ -53,6 +53,11 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+    // this if statement is used to check whether the incoming url is '/campgrounds/:id/reviews' and prevents it to be saved as the returnTo value when someone
+    // tries to loggin
+    // if (!['/login', '/register', '/'].includes(req.originalUrl) && req.originalUrl.split('/').pop() !== 'reviews') {
+    //     req.session.returnTo = req.originalUrl;
+    // }
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');

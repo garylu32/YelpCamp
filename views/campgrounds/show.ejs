@@ -34,7 +34,7 @@
         </div>
         <div class="col-6">
             <h2>Leave a Review</h2>
-            <form class="mb-3 validated-form" action="/campgrounds/<%=campground._id%>/reviews" method="POST"
+            <form class="mb-4 validated-form" action="/campgrounds/<%=campground._id%>/reviews" method="POST"
                 novalidate>
                 <div class="mb-3">
                     <label class="form-label" for="rating">Rating</label>
@@ -47,8 +47,13 @@
                         Looks Good!
                     </div>
                 </div>
-                <button class="btn btn-success">Submit</button>
+                <% if (currentUser) { %>
+                    <button class="btn btn-success">Submit</button>
+                    <% } else {%>
+                        <a class="nav-link" href="/login">Login to leave a review</a>
+                        <% } %>
             </form>
+
             <% for(let review of campground.reviews) { %>
                 <div class="card">
                     <div class="mb-3 card-body">
@@ -56,10 +61,13 @@
                         </h5>
                         <p class="card-text">Review: <%= review.body %>
                         </p>
-                        <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
-                            method="POST">
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </form>
+                        <!-- if state is used to check whether user is login, if not, then the review delete button wouldn't show -->
+                        <% if (currentUser) { %>
+                            <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
+                                method="POST">
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                            <% } %>
                     </div>
                 </div>
                 <% } %>
